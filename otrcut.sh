@@ -875,15 +875,9 @@ function fps ()
 echo -n "Ermittles Bildrate --> "
 
 fps=50
-fpschk=$(
-		file "$film" 2>&1 |
-		while read line; do
-			if [[ $line == "*25.00 fps*" ]]; then
-				fps=25
-				break
-			fi
-		done
-	)
+if file "$film" 2>&1 | grep "25.00 fps" > /dev/null ; then
+fps=25
+fi
 echo $fps
 }
 
