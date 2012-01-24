@@ -125,6 +125,7 @@ Homepage: http://www.siggimania4u.de
 Cutlists: http://www.cutlist.de, http://www.cutlist.at
 
 Danke an MKay für das Aspect-Ratio-Script
+FPS-Script/HD-Funktion: Florian Knodt <www.adlerweb.info>
 
 HELP
 exit 0
@@ -867,6 +868,25 @@ if [ $aspectR -eq 2 ] ; then
 fi
 }
 
+#Hier wird geprüft, welche Bildrate der Film hat.
+#Florian Knodt <www.adlerweb.info>
+function fps ()
+{
+echo -n "Ermittles Bildrate --> "
+
+fps=50
+fpschk=$(
+		file "$film" 2>&1 |
+		while read line; do
+			if [[ $line == "*25.00 fps*" ]]; then
+				fps=25
+				break
+			fi
+		done
+	)
+echo $fps
+}
+
 #Hier wird nun die Zeit ins richtige Format für avisplit umgerechnet
 function time1 ()
 {
@@ -1058,10 +1078,10 @@ if [ "$format" = "zeit" ]; then
 	echo "Es müssen $cut_anzahl Cuts umgerechnet werden"
 	while [ "$cut_anzahl" -gt 0 ]; do
 		let time_seconds_start=$(cat $tmp/$CUTLIST | grep "Start=" | cut -d= -f2 | head -n$head2 | tail -n1 | cut -d"." -f1 | tr -d "\r")
-          	let time_frame_start=$time_seconds_start*25
+          	let time_frame_start=$time_seconds_start*$fps
           	echo "Startframe= $time_frame_start"
           	let time_seconds_dauer=$(cat  $tmp/$CUTLIST | grep "Duration=" | cut -d= -f2 | head -n$head2 | tail -n1 | cut -d"." -f1 | tr -d "\r")
-          	let time_frame_dauer=$time_seconds_dauer*25
+          	let time_frame_dauer=$time_seconds_dauer*$fps
           	echo "Dauer= $time_frame_dauer"
           	echo "app.addSegment(0,$time_frame_start,$time_frame_dauer);" >> $tmp/avidemux.js
           	let head2++
@@ -1104,11 +1124,12 @@ fi
 
 function ende ()
 { 
+fpsjs=$(($fps*1000))
 cat << EOF
 
 //** Postproc **
 app.video.setPostProc(3,3,0);
-app.video.setFps1000(25000);
+app.video.setFps1000($fpsjs);
 
 //** Filters **
 
@@ -1133,11 +1154,12 @@ EOF
 
 function ende_new ()
 { 
+fpsjs=$(($fps*1000))
 cat << EOF
 
 //** Postproc **
 app.video.setPostProc(3,3,0);
-app.video.fps1000=25000;
+app.video.fps1000=$fpsjs;
 
 //** Filters **
 
@@ -1322,6 +1344,7 @@ software
        	if [ "$UseLocalCutlist" == "yes" ]; then
            	local
        	fi
+        
        	while true; do
 		if [ "$UseLocalCutlist" == "no" ] || [ "$vorhanden" == "no" ]; then
            		load
@@ -1332,6 +1355,9 @@ software
 		#if [ "$continue" == "0" ]; then
          	#  	aspectratio
 		#fi
+        if [ "$continue" == "0" ]; then
+         	  	fps
+		fi
 		if [ "$continue" == "0" ]; then
 			cutlist_error
 		fi
