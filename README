@@ -13,11 +13,11 @@ Cutlisten, welche ein Leerzeichen im Dateinamen haben, führen nicht mehr zu Pro
 ## File-Space-Patch
 Es können Eingabedateien mit Leerzeichen im Dateinamen verwendet werden.
 Um dies zu ermöglichen wurde die Bedienung des Programms angepasst: Bisher wurden mehrere Dateien durch Leerzeichen getrennt nach -i angegeben:
-./otrcut.sh -i datei1.avi datei2.avi
+    ./otrcut.sh -i datei1.avi datei2.avi
 
 Nun wird jede Datei mit -i eingeleitet:
 
-./otrcut.sh -i datei1.avi -i datei2.avi -i "datei 3.avi"
+    ./otrcut.sh -i datei1.avi -i datei2.avi -i "datei 3.avi"
 
 ## Temp-Space-Patch
 Temporäre Pfade, welche Leerzeichen enthalten, konnten im Original zu Fehlfunktionen oder Datenverlust führen
