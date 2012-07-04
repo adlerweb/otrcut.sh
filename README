@@ -1,10 +1,26 @@
+otrcut.sh
+Patchset: Florian Knodt <www.adlerweb.info>
 Original: http://www.siggimania4u.de/otrcut.html
 
-Enthaltene Patche:
+# Enthaltene Patche:
 
-==HD-Video-Patch==
+## HD-Video-Patch
 Erlaubt es HD-Videos zu schneiden, welche mit 50FPS aufgezeichnet wurden. Nur mit avidemux getestet.
 
+## Cutlist-Space-Patch
+Cutlisten, welche ein Leerzeichen im Dateinamen haben, führen nicht mehr zu Programmabbrüchen
+
+## File-Space-Patch
+Es können Eingabedateien mit Leerzeichen im Dateinamen verwendet werden.
+Um dies zu ermöglichen wurde die Bedienung des Programms angepasst: Bisher wurden mehrere Dateien durch Leerzeichen getrennt nach -i angegeben:
+./otrcut.sh -i datei1.avi datei2.avi
+
+Nun wird jede Datei mit -i eingeleitet:
+
+./otrcut.sh -i datei1.avi -i datei2.avi -i "datei 3.avi"
+
+## Temp-Space-Patch
+Temporäre Pfade, welche Leerzeichen enthalten, konnten im Original zu Fehlfunktionen oder Datenverlust führen
 
 ==========================
 Dieses Script schneidet OTR-Dateien anhand der Cutlist von http://cutlist.at.

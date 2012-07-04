@@ -15,7 +15,7 @@
 #Hier werden verschiedene Variablen definiert.
 version=20090816	#Die Version von OtrCut, Format: yyyymmdd, yyyy=Jahr mm=Monat dd=Tag
 LocalCutlistOkay=no	#Ist die lokale Cutlist vorhanden?
-input=""		#Eingabedatei/en
+input=()		#Eingabedatei/en
 CutProg=""		#Zu verwendendes Schneideprogramm
 LocalCutlistName=""	#Name der lokalen Cutlist
 format=""		#Um welches Format handelt es sich? AVI, HQ, mp4
@@ -80,7 +80,7 @@ $0 [optionen] -i film.mpg.avi
 
 Optionen:
 
--i, --input [arg]	Input Datei/Dateien
+-i, --input [arg]	Input Datei/Dateien (kann mehrfach benutzt werden um mehrere Dateien zu schneiden)
 
 -a, --avisplit		Avisplit und avimerge anstelle von avidemux verwenden
 
@@ -151,7 +151,7 @@ exit 0
 #Hier werden die übergebenen Option ausgewertet
 while [ ! -z "$1" ]; do
 	case $1 in
-		-i | --input )	input="$2"
+		-i | --input )	input=("${input[@]}" "$2")
 				shift ;;
 		-a | --avisplit )	UseAvidemux=no ;;
 		-e | --error )	HaltByErrors=yes ;;
@@ -218,18 +218,15 @@ echo ""
 function test ()
 {
 #Hier wird überprüft ob eine Eingabedatei angegeben ist
-if [ -z $i ]; then		
+if [ -z "$i" ]; then		
     echo "${rot}Es wurde keine Eingabedatei angegeben!${normal}"
     exit 1
 else
     #Überprüfe ob angegebene Datei existiert
-    for f in $i; do		
-       if [ ! -f "$f" ]; then
-           echo -e "${rot}Eingabedatei nicht gefunden!${normal}"
-	   echo "$f"
-           exit 1
-       fi
-    done
+    if [ ! -f "$i" ]; then
+        echo -e "${rot}Eingabedatei nicht gefunden!${normal}"
+        exit 1
+    fi
 fi
 
 #Hier wird überprüft ob die Option -p, --play richtig gesetzt wurde
@@ -1313,7 +1310,7 @@ if [ "$tmp" == "" ] || [ "$tmp" == "/" ] || [ "$tmp" == "/home" ]; then
 fi
 echo "Lösche temporäre Dateien"
 #echo $tmp
-rm -rf "$tmp/*"
+rm -rf "$tmp"/*
 }
 
 
@@ -1331,7 +1328,7 @@ datei
 #   	echo "Verwende http://cutlist.mbod.net als Server"
 #fi
 software
-	for i in $input; do
+	for i in "${input[@]}"; do
        		test
 		del_tmp
 		decode
