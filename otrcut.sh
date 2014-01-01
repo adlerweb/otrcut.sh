@@ -1047,7 +1047,7 @@ if [ "$ad_version" == "old" ]; then
 	fi
 elif [ "$ad_version" == "new" ]; then
 	if [ "$decoded" == "yes" ]; then
-		echo "app.load(\"$output_new/$film\")" >> "/$tmp/avidemux.js"
+		echo "app.load(\"$output/$film\")" >> "/$tmp/avidemux.js"
 	else
 		echo "app.load(\"$film_new_ad\")" >> "/$tmp/avidemux.js"
 	fi
