@@ -1041,15 +1041,15 @@ start1 >> "$tmp/avidemux.js"
 
 if [ "$ad_version" == "old" ]; then
 	if [ "$decoded" == "yes" ]; then
-		echo "app.load(\"$output/$film\")" >> "/$tmp/avidemux.js"
+		echo "app.load(\"$output/$film\")" >> "$tmp/avidemux.js"
 	else
-		echo "app.load(\"$film\")" >> "/$tmp/avidemux.js"
+		echo "app.load(\"$film\")" >> "$tmp/avidemux.js"
 	fi
 elif [ "$ad_version" == "new" ]; then
 	if [ "$decoded" == "yes" ]; then
-		echo "app.load(\"$output/$film\")" >> "/$tmp/avidemux.js"
+		echo "app.load(\"$output/$film\")" >> "$tmp/avidemux.js"
 	else
-		echo "app.load(\"$film_new_ad\")" >> "/$tmp/avidemux.js"
+		echo "app.load(\"$film_new_ad\")" >> "$tmp/avidemux.js"
 	fi
 fi
 
