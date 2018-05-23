@@ -1,4 +1,9 @@
 otrcut.sh
+
+# Achtung: Unmaintained!
+Kompatibilität mit Sniplist (aka cutlist.at 2018) ist gegeben.
+Dieses Script Benötigt [Avidemux2](http://avidemux.sourceforge.net/) (aka 2.6), welches mehrere bekannte Sicherheitslücken aufweist. Für einen sinnvollen Betrieb müsste Kompatilibität mit Avidemux3 (aka 2.7) hergestellt werden, welches leider eine andere Ansteuerung benötigt.
+
 Patchset: Florian Knodt <www.adlerweb.info>
 Original: http://www.siggimania4u.de/otrcut.html
 
